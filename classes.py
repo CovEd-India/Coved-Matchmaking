@@ -1,5 +1,5 @@
 class Mentor:
-    def __init__(self, name, email, class_list,foreignuniv,subjects, hours, maxments, emotional, emotype=None,feedback_type=None,feedback_id=None,gender=None,) :
+    def __init__(self, name, email, class_list,foreignuniv,subjects, hours, maxments, emotional, assigned=0,emotype=None,feedback_type=None,feedback_id=None,gender=None) :
         self.name = name #string
         self.email = email #string
         self.feedback_type=feedback_type # int feedback[1,2,or 3]
@@ -13,16 +13,17 @@ class Mentor:
         self.gender=gender      # int 0,1 or 2 use gender dict
         self.emotype=emotype  # list of emotypes they are comfortable in addressing, all ints
         self.assigned_students=[] #dict of student_id:student_instance
+        self.numberassigned = assigned
     def is_free (self):
     	try:
-    		return len(self.assigned_students)<=int(float(self.maxments))
+            return self.numberassigned<int(float(self.maxments))
     	except:
     		return False
 
 
 class Student:
     def __init__(self, name, email, class_id,\
-                 foreignuniv,subjects,extracurricular,emotype=None, gender=None, feedback_type=None) :
+                 foreignuniv,subjects,extracurricular,emotype=None, gender=None, feedback_type=None,assigned_mentor=None) :
         self.name = name
         self.email = email
         self.feedback_type=feedback_type  #(feedback[1,2,or 3])
@@ -33,7 +34,7 @@ class Student:
         self.mentorgender=gender    # int male=0 female =1 any=2
         self.emotype=emotype        # int using the emotype dictionary
         self.extracurricular=extracurricular         # bool var
-        self.assigned_mentor=None
+        self.assigned_mentor= assigned_mentor
         
     def repr(self):
         return self.name

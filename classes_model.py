@@ -42,8 +42,8 @@ class Mentor(object):
             return self.college_num < other.college_num
         return self.mentees-1.5 *self.hours<other.mentees-1.5 * other.hours
     
-    def is_free (self):
-        return len(self.assigned_students)<=int(self.maxments)
+    # def is_free (self):
+    #     return len(self.assigned_students)<=int(self.maxments)
     
 #    def assign_student (self,student):
 #        ''' input is an instance of the student class'''

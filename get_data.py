@@ -20,9 +20,10 @@ def get_mentors(sheetname = 'covedmentornew'):
 	feedback_type_head="If you are filling this form for the second time and have already been assigned a student, are you happy with the student assigned to you?"
 	feedback_id_head = "Please provide the code ID that you have been assigned(E.g. E-111 or M-34 or X-45 etc.)(Note: If you are filling this form for the first time, write 'None')"
 	gender_head = "What is your gender? (Note that we are providing this facility to students only in the case of them requiring emotional support as some issues can be sensitive. For general academic help this option will not be taken into account)"
-
+	assigned_head="Assigned"
+	
 	#fetch data from sheet
-	records = get_data_from_sheet(sheetname)
+	records,mentor_sheet = get_data_from_sheet(sheetname)
 	for row in records:
 		#For some cases, the values do not match what is given in the dictionary. 
 		try:
@@ -37,6 +38,11 @@ def get_mentors(sheetname = 'covedmentornew'):
 			emotype = [classes_model.emotype[y.strip()] for y in row[emotype_head].split(",")]	#split- assignmentor assumes list. strip- google forms appends whitespaces which can be difficult to keep in account
 			feedback_type = classes_model.feedback[row[feedback_type_head]]
 			feedback_id = row[feedback_id_head]
+
+			if row[assigned_head]=='':
+				assigned = 0
+			else: 
+				assigned = int(row[assigned_head])
 			
 			try:								#Made like this because some people have not filled gender even after saying Yes to support
 				gender = classes_model.gender[row[gender_head]]
@@ -44,13 +50,13 @@ def get_mentors(sheetname = 'covedmentornew'):
 				gender = None
 
 			#Initialise mentor object
-			mentor_object = Mentor(name,email,classes,foreignuniv,subjects ,hours,maxments,emotional, emotype,feedback_type,feedback_id,gender)
+			mentor_object = Mentor(name,email,classes,foreignuniv,subjects ,hours,maxments,emotional, assigned,emotype,feedback_type,feedback_id,gender)
 			mentors.append(mentor_object)
 			
 		except:
 			continue
 		
-	return mentors
+	return mentors,mentor_sheet
 	
 
 
@@ -61,16 +67,17 @@ def get_mentees(sheetname="sheet1"):
 	#variables containing the headings of columns in google forms. 
 	name_head = 'Full Name:'
 	email_head = 'Email Address'
-	grade_head ="What is your age group? (Repeaters 12+ in any stream should select the 11th and 12th option for the corresponding stream)"
+	grade_head ="What is your age group? (Repeaters 12 above in any stream should select the 11th and 12th option for the corresponding stream)"
 	foreignuniv_head = "Some mentors have experience with College Applications for foreign universities (like essays and other stuff). Do you require some help with that? (Please select yes only if you are really considering applying to a foreign university soon)"
 	subjects_head ="What subjects do you specifically need help with?"
 	extracurricular_head = "Would you be interested in receiving extra curricular support from your mentor (Answer the next question only if your response to this question is Yes):"
 	feedback_head ="If you are filling this form for the second time and have already been assigned a mentor, are you happy with the mentor assigned to you?"
 	emotype_head = "Please select all the box pertaining to the area that you need support with with (once again please be considerate and only select something if you genuinely need help with it):"
 	gender_head ="What is your gender? (Note that we are providing this facility only in the case of students requiring emotional support as some issues can be sensitive. For general academic help this option will not be taken into account)"
-	
+	assigned_mentor_head = "Assigned Mentor"
+
 	#fetch data from sheet
-	records= get_data_from_sheet(sheetname)
+	records,mentee_sheet= get_data_from_sheet(sheetname)
 
 	for row in records:
 		#For some cases, the values do not match what is given in the dictionary. 
@@ -92,18 +99,25 @@ def get_mentees(sheetname="sheet1"):
 			except:
 				gender = None
 
+			if row[assigned_mentor_head]=='':
+				assigned_mentor=None
+			else:
+				assigned_mentor = row[assigned_mentor_head]
+
 			#Initialise mentee object
-			student_object = Student(name,email,classes,foreignuniv,subjects,extracurricular,emotype=emotype,gender=gender,feedback_type=feedback)
+			student_object = Student(name,email,classes,foreignuniv,subjects,extracurricular,emotype=emotype,gender=gender,feedback_type=feedback,assigned_mentor=assigned_mentor)
 			mentees.append(student_object)
 
 		except:
 			continue
 	
-	return mentees
+	return mentees,mentee_sheet
 
 
 
 if __name__=='__main__':
-	print(len(get_mentors()))
-	print(len(get_mentees()))
+	mentors_list,_ = get_mentors()
+	mentees_list,_ = get_mentees()
+	print(len(mentors_list))
+	print(len(mentees_list))
 
