@@ -11,16 +11,5 @@ def get_data_from_sheet(sheetname="sheet1"):
 	return data,sheet
 
 if __name__=='__main__':
-	# resources = get_data_from_sheet()
-	# print(len(resources),type(resources),type(resources[0]))
-	# resources_math = resources_science = resources_chemistry_m =  resources_chemistry_nm = resources_physics_m = resources_physics_nm = []
-	# resources_kidsmath = resources_general =resources_biology = resources_commerce = resources_arts = resources_cs =[]
-	# for item in resources:
-	# 	subjects = item.subject.split(",")
-	# 	if 'm' in subjects:
-	# 		resources_math.append(item)
-
-	# for item in resources_math:
-	# 	print (item.name)
-	cell = get_data_from_sheet()
-	print(cell.col)
+	data,_ = get_data_from_sheet()
+	print(data)

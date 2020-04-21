@@ -16,7 +16,7 @@ class Mentor:
         self.numberassigned = assigned
     def is_free (self):
     	try:
-            return self.numberassigned<int(float(self.maxments))
+            return 1.5*self.numberassigned<int(float(self.hours))
     	except:
     		return False
 
@@ -34,7 +34,7 @@ class Student:
         self.mentorgender=gender    # int male=0 female =1 any=2
         self.emotype=emotype        # int using the emotype dictionary
         self.extracurricular=extracurricular         # bool var
-        self.assigned_mentor= assigned_mentor
+        self.assigned_mentor= assigned_mentor   #Name of assigned Mentor
         
     def repr(self):
         return self.name
