@@ -59,15 +59,15 @@ def student_assign_mentor(student):
 
     if mentor_return is not None :
 
-        mentor_rowno = mentor_sheet.find(mentor_return.email).row
+        #mentor_rowno = mentor_sheet.find(mentor_return.email).row
         mentor_return.numberassigned+=1
         mentor_return.assigned_students.append(student)
-        mentor_sheet.update_cell(mentor_rowno,21,mentor_return.numberassigned)
+        mentor_sheet.update_cell(mentor.row_no,21,mentor_return.numberassigned)
 
         #Update mentee parameters
         student.assigned_mentor = mentor_return.name
-        student_rowno = mentee_sheet.find(student.name).row
-        mentee_sheet.update_cell(student_rowno,18,student.assigned_mentor)
+        #student_rowno = mentee_sheet.find(student.name).row
+        mentee_sheet.update_cell(student.row_no,18,student.assigned_mentor)
 
     return mentor_return
 
