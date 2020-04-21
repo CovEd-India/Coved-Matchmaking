@@ -72,7 +72,7 @@ def student_assign_mentor(student):
         #student_rowno = mentee_sheet.find(student.name).row
         mentee_sheet.update_cell(student.row_no,18,student.assigned_mentor)
 
-        ## There is a limit of 500 requests per 100 seconds on free account. So use update_cell only when necessary
+        ## There is a limit of 100 requests per 100 seconds on free account. So use update_cell only when necessary
         # mentee_sheet.update_cell(student.row_no,19,mentor_return.email)
         # mentee_sheet.update_cell(student.row_no,20,"No")
 
@@ -122,7 +122,7 @@ if __name__=='__main__':
             print(student_assign_mentor(student).name,student.name,i)
             i+=1
         except:
-            print("Request limit exceeded (500 per 100 seconds). Try again after some time.")
+            print("Request limit exceeded (100 requests per 100 seconds). Try again after some time.")
             break
 
 
