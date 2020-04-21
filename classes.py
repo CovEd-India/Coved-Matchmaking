@@ -1,5 +1,5 @@
 class Mentor:
-    def __init__(self, name, email, class_list,foreignuniv,subjects, hours, maxments, emotional, assigned=0,emotype=None,feedback_type=None,feedback_id=None,gender=None) :
+    def __init__(self, name, email, class_list,foreignuniv,subjects, hours, maxments, emotional, assigned=0,emotype=None,feedback_type=None,feedback_id=None,gender=None, row_no = 0) :
         self.name = name #string
         self.email = email #string
         self.feedback_type=feedback_type # int feedback[1,2,or 3]
@@ -14,6 +14,7 @@ class Mentor:
         self.emotype=emotype  # list of emotypes they are comfortable in addressing, all ints
         self.assigned_students=[] #dict of student_id:student_instance
         self.numberassigned = assigned
+        self.row_no = row_no
     def is_free (self):
     	try:
             return 0.75*int(self.numberassigned)<int(float(self.hours)) and int(self.numberassigned) < int(self.maxments)
@@ -23,7 +24,7 @@ class Mentor:
 
 class Student:
     def __init__(self, name, email, class_id,\
-                 foreignuniv,subjects,extracurricular,emotype=None, gender=None, feedback_type=None,assigned_mentor=None) :
+                 foreignuniv,subjects,extracurricular,emotype=None, gender=None, feedback_type=None,assigned_mentor=None, row_no = 0) :
         self.name = name
         self.email = email
         self.feedback_type=feedback_type  #(feedback[1,2,or 3])
@@ -35,6 +36,7 @@ class Student:
         self.emotype=emotype        # int using the emotype dictionary
         self.extracurricular=extracurricular         # bool var
         self.assigned_mentor= assigned_mentor   #Name of assigned Mentor
+        self.row_no = row_no
         
     def repr(self):
         return self.name

@@ -24,6 +24,8 @@ def get_mentors(sheetname = 'covedmentornew'):
 	
 	#fetch data from sheet
 	records,mentor_sheet = get_data_from_sheet(sheetname)
+	row_no = 2
+
 	for row in records:
 		#For some cases, the values do not match what is given in the dictionary. 
 		try:
@@ -50,8 +52,9 @@ def get_mentors(sheetname = 'covedmentornew'):
 				gender = None
 
 			#Initialise mentor object
-			mentor_object = Mentor(name,email,classes,foreignuniv,subjects ,hours,maxments,emotional, assigned,emotype,feedback_type,feedback_id,gender)
+			mentor_object = Mentor(name,email,classes,foreignuniv,subjects ,hours,maxments,emotional, assigned,emotype,feedback_type,feedback_id,gender, row_no)
 			mentors.append(mentor_object)
+			row_no += 1
 			
 		except:
 			continue
@@ -79,6 +82,8 @@ def get_mentees(sheetname="sheet1"):
 	#fetch data from sheet
 	records,mentee_sheet= get_data_from_sheet(sheetname)
 
+	row_no = 2
+
 	for row in records:
 		#For some cases, the values do not match what is given in the dictionary. 
 		try:
@@ -105,8 +110,9 @@ def get_mentees(sheetname="sheet1"):
 				assigned_mentor = row[assigned_mentor_head]
 
 			#Initialise mentee object
-			student_object = Student(name,email,classes,foreignuniv,subjects,extracurricular,emotype=emotype,gender=gender,feedback_type=feedback,assigned_mentor=assigned_mentor)
+			student_object = Student(name,email,classes,foreignuniv,subjects,extracurricular,emotype=emotype,gender=gender,feedback_type=feedback,assigned_mentor=assigned_mentor, row_no = row_no)
 			mentees.append(student_object)
+			row_no += 1
 
 		except:
 			continue
