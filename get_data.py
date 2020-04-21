@@ -24,9 +24,10 @@ def get_mentors(sheetname = 'covedmentornew'):
 	
 	#fetch data from sheet
 	records,mentor_sheet = get_data_from_sheet(sheetname)
-	row_no = 2
+	row_no = 1
 
 	for row in records:
+		row_no += 1
 		#For some cases, the values do not match what is given in the dictionary. 
 		try:
 			name = row[name_head]
@@ -57,7 +58,6 @@ def get_mentors(sheetname = 'covedmentornew'):
 			## Only the free mentors are returned to reduce time
 			if mentor_object.is_free() :
 				mentors.append(mentor_object)
-				row_no += 1
 			
 		except:
 			print("Some Error Occured : Mentor\n")
@@ -88,9 +88,10 @@ def get_mentees(sheetname="sheet1"):
 	#fetch data from sheet
 	records,mentee_sheet= get_data_from_sheet(sheetname)
 
-	row_no = 2
+	row_no = 1
 
 	for row in records:
+		row_no += 1
 		#For some cases, the values do not match what is given in the dictionary. 
 		try:
 
@@ -126,7 +127,6 @@ def get_mentees(sheetname="sheet1"):
 			#Initialise mentee object
 			student_object = Student(name,email,classes,foreignuniv,subjects,extracurricular,emotype=emotype,gender=gender,feedback_type=feedback,assigned_mentor=assigned_mentor, row_no = row_no)
 			mentees.append(student_object)
-			row_no += 1
 
 		except:
 			print("Some Error Occured : Student\n")

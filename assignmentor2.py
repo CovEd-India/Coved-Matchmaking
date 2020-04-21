@@ -47,10 +47,13 @@ def student_assign_mentor(student):
                         score -= 20         # decide this value
 
             assignable_mentors.append([mentor, score])
+
+        else :
+            mentors.remove(mentor)
         # assignable_mentors=sorted(assignable_mentors)
     #update mentor parameters
     mentor_return = None
-    max_score = -100
+    max_score = -1000
 
     for ment in assignable_mentors :
         if (ment[1] > max_score) :
@@ -72,40 +75,40 @@ def student_assign_mentor(student):
     return mentor_return
 
 
-def student_feedback():
-    for student in students:
-        if student.feedback_type !=None:
+# def student_feedback():
+#     for student in students:
+#         if student.feedback_type !=None:
         
-            if student.feedback_type==1:
-                pass
-        #For both of these we'll haveto make an entry into some database regarding the changes
-            elif student.feedback_type==2:
-                del student.assigned_mentor.assigned_students[student.id]
-                student.assigned_mentor=student_assign_mentor(student)
-            elif student.feedback_type==3:
-                student.assigned_mentor=student_assign_mentor(student)
-                student.assigned_mentor.assigned_students[student.id]=student
-        if student.assigned_mentor==None:
-            student.assigned_mentor=student_assign_mentor(student)
-            student.assigned_mentor.assigned_students[student.id]=student
+#             if student.feedback_type==1:
+#                 pass
+#         #For both of these we'll haveto make an entry into some database regarding the changes
+#             elif student.feedback_type==2:
+#                 del student.assigned_mentor.assigned_students[student.id]
+#                 student.assigned_mentor=student_assign_mentor(student)
+#             elif student.feedback_type==3:
+#                 student.assigned_mentor=student_assign_mentor(student)
+#                 student.assigned_mentor.assigned_students[student.id]=student
+#         if student.assigned_mentor==None:
+#             student.assigned_mentor=student_assign_mentor(student)
+#             student.assigned_mentor.assigned_students[student.id]=student
                 
-        student.feedback_type=None
+#         student.feedback_type=None
             
-def mentor_feedback():
-    for mentor in mentors:
-        if mentor_feedback_type != None:
+# def mentor_feedback():
+#     for mentor in mentors:
+#         if mentor_feedback_type != None:
             
-            if mentor.feedback_type==1:
-                pass
+#             if mentor.feedback_type==1:
+#                 pass
 
-            elif mentor.feedback_type==2:
-                copydict=mentor.assigned_students.copy()
-                for student_id in copydict:
-                    if mentor.feedback_id==student_id:  
-                        mentor.assigned_students[student_id].assigned_mentor=None
-                        del mentor.assigned_students[student_id]
-        mentor.feedback_type=None
-        mentor.feedback_id=None
+#             elif mentor.feedback_type==2:
+#                 copydict=mentor.assigned_students.copy()
+#                 for student_id in copydict:
+#                     if mentor.feedback_id==student_id:  
+#                         mentor.assigned_students[student_id].assigned_mentor=None
+#                         del mentor.assigned_students[student_id]
+#         mentor.feedback_type=None
+#         mentor.feedback_id=None
 
 
 if __name__=='__main__':
@@ -115,6 +118,7 @@ if __name__=='__main__':
             print(student_assign_mentor(student).name,student.name,i)
             i+=1
         except:
-            print("no mentor found")
+            print("Request limit exceeded (500 per 100 seconds). Try again after some time.")
+            break
 
 
