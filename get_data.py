@@ -41,10 +41,10 @@ def get_mentors(sheetname = 'covedmentornew'):
 			feedback_type = classes_model.feedback[row[feedback_type_head]]
 			feedback_id = row[feedback_id_head]
 
-			if row[assigned_head]=='':
+			if row[assigned_head].replace(' ', '') == '':
 				assigned = 0
 			else: 
-				assigned = int(row[assigned_head])
+				assigned = int(row[assigned_head].replace(' ', ''))
 			
 			try:								#Made like this because some people have not filled gender even after saying Yes to support
 				gender = classes_model.gender[row[gender_head]]
@@ -53,10 +53,16 @@ def get_mentors(sheetname = 'covedmentornew'):
 
 			#Initialise mentor object
 			mentor_object = Mentor(name,email,classes,foreignuniv,subjects ,hours,maxments,emotional, assigned,emotype,feedback_type,feedback_id,gender, row_no)
-			mentors.append(mentor_object)
-			row_no += 1
+
+			## Only the free mentors are returned to reduce time
+			if mentor_object.is_free() :
+				mentors.append(mentor_object)
+				row_no += 1
 			
 		except:
+			print("Some Error Occured : Mentor\n")
+			print(row)
+			print("#############################################\n")
 			continue
 		
 	return mentors,mentor_sheet
@@ -87,13 +93,25 @@ def get_mentees(sheetname="sheet1"):
 	for row in records:
 		#For some cases, the values do not match what is given in the dictionary. 
 		try:
+
+			if row[assigned_mentor_head].replace(' ', '') == '':
+				assigned_mentor=None
+			else:
+				assigned_mentor = row[assigned_mentor_head]
+
+			feedback = classes_model.feedback[row[feedback_head]]
+
+			## Appending only the unassigned students to save time
+			if assigned_mentor != None and feedback != 2 :
+				continue
+
+
 			name = row[name_head]
 			email = row[email_head]
 			classes = classes_model.class_ids[row[grade_head]]
 			foreignuniv = classes_model.bool_dict[row[foreignuniv_head] if row[foreignuniv_head]!='' else 'No']		#some entries were blank in forms. 
 			subjects =  row[subjects_head].split(",")			#Assumed list in assignmentor
 			extracurricular = classes_model.bool_dict[row[extracurricular_head]]
-			feedback = classes_model.feedback[row[feedback_head]]
 			if extracurricular:
 				emotype = [classes_model.emotype[y.strip()] for y in row[emotype_head].split(",")]		#split- assignmentor assumes list. strip- google forms appends whitespaces which can be difficult to keep in account
 			else:
@@ -104,10 +122,6 @@ def get_mentees(sheetname="sheet1"):
 			except:
 				gender = None
 
-			if row[assigned_mentor_head]=='':
-				assigned_mentor=None
-			else:
-				assigned_mentor = row[assigned_mentor_head]
 
 			#Initialise mentee object
 			student_object = Student(name,email,classes,foreignuniv,subjects,extracurricular,emotype=emotype,gender=gender,feedback_type=feedback,assigned_mentor=assigned_mentor, row_no = row_no)
@@ -115,6 +129,9 @@ def get_mentees(sheetname="sheet1"):
 			row_no += 1
 
 		except:
+			print("Some Error Occured : Student\n")
+			print(row)
+			print("#############################################\n")
 			continue
 	
 	return mentees,mentee_sheet
