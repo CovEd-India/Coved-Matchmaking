@@ -16,7 +16,7 @@ class Mentor:
         self.numberassigned = assigned
     def is_free (self):
     	try:
-            return 1.5*self.numberassigned<int(float(self.hours)) and self.numberassigned < self.maxments
+            return 0.75*self.numberassigned<int(float(self.hours)) and self.numberassigned < self.maxments
     	except:
     		return False
 
