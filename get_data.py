@@ -4,7 +4,7 @@ from classes import Mentor,Student
 
 
 
-def get_mentors(sheetname = 'covedmentornew'):
+def get_mentors(sheetname = 'Copy of CovEd Mentor Form New'):
 	mentors = []
 
 	#variables containing the headings of columns in google forms. 
@@ -70,13 +70,13 @@ def get_mentors(sheetname = 'covedmentornew'):
 
 
 
-def get_mentees(sheetname="sheet1"):
+def get_mentees(sheetname="Copy of CovEd student form (New)"):
 	mentees = []
 
 	#variables containing the headings of columns in google forms. 
 	name_head = 'Full Name:'
 	email_head = 'Email Address'
-	grade_head ="What is your age group? (Repeaters 12 above in any stream should select the 11th and 12th option for the corresponding stream)"
+	grade_head ="What is your age group? (Repeaters in any particular stream please select the 11-12 option in the corresponding stream)"
 	foreignuniv_head = "Some mentors have experience with College Applications for foreign universities (like essays and other stuff). Do you require some help with that? (Please select yes only if you are really considering applying to a foreign university soon)"
 	subjects_head ="What subjects do you specifically need help with?"
 	extracurricular_head = "Would you be interested in receiving extra curricular support from your mentor (Answer the next question only if your response to this question is Yes):"
