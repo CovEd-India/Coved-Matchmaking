@@ -39,6 +39,8 @@ def get_mentors(sheetname = 'Copy of CovEd Mentor Form New'):
 			maxments = row[maxments_head]
 			emotional = classes_model.emotional[row[emotional_head]]
 			emotype = [classes_model.emotype[y.strip()] for y in row[emotype_head].split(",")]	#split- assignmentor assumes list. strip- google forms appends whitespaces which can be difficult to keep in account
+			if 0 not in emotype :
+				emotype.append(0)
 			feedback_type = classes_model.feedback[row[feedback_type_head]]
 			feedback_id = row[feedback_id_head]
 			clg = classes_model.college_tiers[row[college_head]]
@@ -61,14 +63,14 @@ def get_mentors(sheetname = 'Copy of CovEd Mentor Form New'):
 				mentors.append(mentor_object)
 			
 		except:
-			print("Some Error Occured : Mentor\n")
-			print(row)
-			print("#############################################\n")
+			print("Some Error Occured : Mentor")
+			print(row[name_head], row[email_head])
+			print("\n#############################################\n")
 			continue
+
 		
 	return mentors,mentor_sheet
 	
-
 
 
 def get_mentees(sheetname="Copy of CovEd student form (New)"):
@@ -116,8 +118,10 @@ def get_mentees(sheetname="Copy of CovEd student form (New)"):
 			extracurricular = classes_model.bool_dict[row[extracurricular_head]]
 			if extracurricular:
 				emotype = [classes_model.emotype[y.strip()] for y in row[emotype_head].split(",")]		#split- assignmentor assumes list. strip- google forms appends whitespaces which can be difficult to keep in account
+				if 0 not in emotype :
+					emotype.append(0)
 			else:
-				emotype=None
+				emotype= [0]
 
 			try: 																	#Made like this because some people have not filled gender even after saying Yes to support
 				gender = classes_model.gender[row[gender_head]]
@@ -130,9 +134,9 @@ def get_mentees(sheetname="Copy of CovEd student form (New)"):
 			mentees.append(student_object)
 
 		except:
-			print("Some Error Occured : Student\n")
-			print(row)
-			print("#############################################\n")
+			print("Some Error Occured : Student")
+			print(row[name_head], row[email_head])
+			print("\n#############################################\n")
 			continue
 	
 	return mentees,mentee_sheet
