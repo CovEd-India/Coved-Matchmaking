@@ -22,7 +22,7 @@ def student_assign_mentor(student):
     assignable_mentors=[]
     for mentor in mentors:
         if mentor.is_free():
-            score = 100 * (int(mentor.hours) - 1 * int(mentor.numberassigned))     # high score means this mentor is a good match for student
+            score = 100 * (int(mentor.maxments) - int(mentor.numberassigned))     # high score means this mentor is a good match for student
 
             if student.assigned_mentor!=None and student.feedback_type==2:
                 if student.assigned_mentor==mentor:
@@ -37,10 +37,10 @@ def student_assign_mentor(student):
 
             if student.foreignuniv:
                 if not mentor.foreignuniv:
-                    score -= 100             # decide this value
+                    score -= 600             # decide this value
             else :
                 if mentor.foreignuniv :
-                    score -= 200
+                    score -= 600
 
             if student.extracurricular:
                 if not mentor.emotional:
@@ -73,7 +73,8 @@ def student_assign_mentor(student):
         #Update mentee parameters
         student.assigned_mentor = mentor_return.name
         #student_rowno = mentee_sheet.find(student.name).row
-        mentee_sheet.update_cell(student.row_no,23,student.assigned_mentor)
+        mentee_sheet.update_cell(student.row_no,22,student.assigned_mentor)
+        mentee_sheet.update_cell(student.row_no,23,mentor_return.email)
 
         ## There is a limit of 100 requests per 100 seconds on free account. So use update_cell only when necessary
         # mentee_sheet.update_cell(student.row_no,19,mentor_return.email)

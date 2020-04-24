@@ -14,13 +14,14 @@ def get_mentors(sheetname = 'Copy of CovEd Mentor Form New'):
 	foreign_univ_desc_head = "Some students have expressed interest in receiving help with College Applications for foreign universities (like essays and other stuff). Do you have experience in that area and would you be willing to help students with that?"
 	maxments_head = "What's the maximum number of mentees you're willing to take at a given point?"
 	subjects_head = "What subjects will you be comfortable in helping with?"
-	hours_head = "Time you'll be able to commit per week (please try at least 1-2 hour per week):"
 	emotional_head = "Will you be willing to provide students with extracurricular support pertaining to moral and emotional (Only proceed forward if your response here is yes):"
 	emotype_head = "This is a copy of the question we will be asking students. Check all the boxes that you are comfortable with addressing?"
 	feedback_type_head="If you are filling this form for the second time and have already been assigned a student, are you happy with the student assigned to you?"
 	feedback_id_head = "Please provide the code ID that you have been assigned(E.g. E-111 or M-34 or X-45 etc.)(Note: If you are filling this form for the first time, write 'None')"
 	gender_head = "What is your gender? (Note that we are providing this facility to students only in the case of them requiring emotional support as some issues can be sensitive. For general academic help this option will not be taken into account)"
 	assigned_head="Assigned"
+	college_head = "What is the college you are or were affiliated with? Please note that we are only accepting responses from students pursuing college level studies (even if not physically going to a college) or have already graduated from college."
+
 	
 	#fetch data from sheet
 	records,mentor_sheet = get_data_from_sheet(sheetname)
@@ -35,12 +36,12 @@ def get_mentors(sheetname = 'Copy of CovEd Mentor Form New'):
 			classes = [classes_model.class_ids[y.strip()] for y in row[grade_head].split(",")]	#split- assignmentor assumes list. strip- google forms appends whitespaces which can be difficult to keep in account
 			foreignuniv = classes_model.foreign_dict[row[foreign_univ_desc_head] if row[foreign_univ_desc_head]!='' else 'No']	#some entries were blank in forms. 
 			subjects = row[subjects_head].split(",")	#split- assignmentor assumes list. strip- google forms appends whitespaces which can be difficult to keep in account
-			hours = row[hours_head]
 			maxments = row[maxments_head]
 			emotional = classes_model.emotional[row[emotional_head]]
 			emotype = [classes_model.emotype[y.strip()] for y in row[emotype_head].split(",")]	#split- assignmentor assumes list. strip- google forms appends whitespaces which can be difficult to keep in account
 			feedback_type = classes_model.feedback[row[feedback_type_head]]
 			feedback_id = row[feedback_id_head]
+			clg = classes_model.college_tiers[row[college_head]]
 
 			if row[assigned_head].replace(' ', '') == '':
 				assigned = 0
@@ -53,7 +54,7 @@ def get_mentors(sheetname = 'Copy of CovEd Mentor Form New'):
 				gender = None
 
 			#Initialise mentor object
-			mentor_object = Mentor(name,email,classes,foreignuniv,subjects ,hours,maxments,emotional, assigned,emotype,feedback_type,feedback_id,gender, row_no)
+			mentor_object = Mentor(name,email,classes,foreignuniv,subjects,maxments,emotional, assigned,emotype,feedback_type,feedback_id,gender, row_no, clg)
 
 			## Only the free mentors are returned to reduce time
 			if mentor_object.is_free() :
