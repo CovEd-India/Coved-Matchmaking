@@ -7,6 +7,6 @@ emotype= {'':0, 'Support regarding managing examination anxiety and stress':1,'S
 'General mental health related issues independent of the Covid-19 crisis':3}
 sub_dict={'Mathematics':1,'Physics':2,'Chemistry':3,'Biology':4,'Science':5,'Language':6,'SST':7,'Commerce':8,'Arts':9}
 college_tiers={'IIT':1,'AIIMS':1,'NIT or BITS':1,'IISc or IISER':1,'Chennai Mathematical Institute (CMI)':1,'Any other foreign university':1,'Any other government affiliated engineering college':2, 'Any other government affiliated medical college':2, 'Any other government affiliated commerce college':2, 'Any other government affiliated arts college':2,'Any other private engineering college':3, 'Any other private medical college':3, 'Any other private commerce college':3, 'Any other private arts college':3}
-foreign_dict= {"Yes":1,"No":0}
-emotional = {"Yes":1,"No":0}
-bool_dict ={"Yes":1,"No":0}
+foreign_dict= {"Yes":1,"No":0, "":0}
+emotional = {"Yes":1,"No":0, "":0}
+bool_dict ={"Yes":1,"No":0, "":0}
