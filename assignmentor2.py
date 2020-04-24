@@ -111,7 +111,7 @@ if __name__=='__main__':
                 print(men.name,student.name,i)
                 i += 1
             else :
-                print("No mentor found")
+                print(student.name, "No mentor found")
 
             if i > 30 :             ## Playing safe in order to not reach the limit
                 break
