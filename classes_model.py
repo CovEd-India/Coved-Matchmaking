@@ -2,7 +2,7 @@ class_ids = {'6th to 10th' : 1, '11th and 12th (engineering)' : 2, '11th and 12t
              '11th and 12th (commerce)':5}
 gender = {'Male': 0 , 'Female' : 1 , 'Prefer not to say' : 2}
 feedback={"Yes, I am satisfied with my assignment and don't want to change it":1, "No, I want to be entered for reassignment (Please tell us a reason in the feedback form)":2, \
-"Not applicable as I am applying for the first time or haven't been assigned yet":3}
+"Not applicable as I am applying for the first time or haven't been assigned yet":3, "Reassigned" : 4}
 emotype= {'':0, 'Support regarding managing examination anxiety and stress':1,'Support regarding situations created by the corona virus pandemic':2,\
 'General mental health related issues independent of the Covid-19 crisis':3}
 sub_dict={'Mathematics':1,'Physics':2,'Chemistry':3,'Biology':4,'Science':5,'Language':6,'SST':7,'Commerce':8,'Arts':9}

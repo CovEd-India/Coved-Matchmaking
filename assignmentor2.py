@@ -89,11 +89,15 @@ def student_assign_mentor(student):
         mentor_return.assigned_students.append(student)
         mentor_sheet.update_cell(mentor_return.row_no,21,mentor_return.numberassigned)
 
+        if student.assigned_mentor != None :                        # Updating the last mentor
+            mentee_sheet.update_cell(student.row_no,22,student.assigned_mentor)
+            mentee_sheet.update_cell(student.row_no,4,"Reassigned")            
+
         #Update mentee parameters
         student.assigned_mentor = mentor_return.name
         #student_rowno = mentee_sheet.find(student.name).row
-        mentee_sheet.update_cell(student.row_no,22,student.assigned_mentor)
-        mentee_sheet.update_cell(student.row_no,23,mentor_return.email)
+        mentee_sheet.update_cell(student.row_no,19,student.assigned_mentor)
+        mentee_sheet.update_cell(student.row_no,20,mentor_return.email)
 
         ## There is a limit of 100 requests per 100 seconds on free account. So use update_cell only when necessary
         # mentee_sheet.update_cell(student.row_no,19,mentor_return.email)
@@ -108,12 +112,12 @@ if __name__=='__main__':
         try:
             men = student_assign_mentor(student)
             if men is not None :
-                print(men.name,student.name,i)
+                print(student.name,men.name,i)
                 i += 1
             else :
                 print(student.name, "No mentor found")
 
-            if i > 30 :             ## Playing safe in order to not reach the limit
+            if i > 20 :             ## Playing safe in order to not reach the limit
                 break
         except:
             print("Request limit exceeded (100 requests per 100 seconds). Try again after some time.")

@@ -4,7 +4,7 @@ from classes import Mentor,Student
 
 
 
-def get_mentors(sheetname = 'Copy of CovEd Mentor Form New'):
+def get_mentors(sheetname = 'Copy of CovEd Mentor Form New copy'):
 	mentors = []
 
 	#variables containing the headings of columns in google forms. 
@@ -20,6 +20,7 @@ def get_mentors(sheetname = 'Copy of CovEd Mentor Form New'):
 	feedback_id_head = "Please provide the code ID that you have been assigned(E.g. E-111 or M-34 or X-45 etc.)(Note: If you are filling this form for the first time, write 'None')"
 	gender_head = "What is your gender? (Note that we are providing this facility to students only in the case of them requiring emotional support as some issues can be sensitive. For general academic help this option will not be taken into account)"
 	assigned_head="Assigned"
+	unassigned_head="Unassigned"
 	college_head = "What is the college you are or were affiliated with? Please note that we are only accepting responses from students pursuing college level studies (even if not physically going to a college) or have already graduated from college."
 
 	
@@ -45,10 +46,15 @@ def get_mentors(sheetname = 'Copy of CovEd Mentor Form New'):
 			feedback_id = row[feedback_id_head]
 			clg = classes_model.college_tiers[row[college_head]]
 
-			if row[assigned_head].replace(' ', '') == '':
+			if str(row[assigned_head]).replace(' ', '') == '':
 				assigned = 0
-			else: 
-				assigned = int(row[assigned_head].replace(' ', ''))
+			else:
+				assigned = int(str(row[assigned_head]).replace(' ', ''))
+
+			if str(row[unassigned_head]).replace(' ', '') == '':
+				unassigned = 0
+			else:
+				unassigned = int(str(row[assigned_head]).replace(' ', ''))
 			
 			try:								#Made like this because some people have not filled gender even after saying Yes to support
 				gender = classes_model.gender[row[gender_head]]
@@ -56,8 +62,7 @@ def get_mentors(sheetname = 'Copy of CovEd Mentor Form New'):
 				gender = None
 
 			#Initialise mentor object
-			mentor_object = Mentor(name,email,classes,foreignuniv,subjects,maxments,emotional, assigned,emotype,feedback_type,feedback_id,gender, row_no, clg)
-
+			mentor_object = Mentor(name,email,classes,foreignuniv,subjects,maxments,emotional, assigned-unassigned,emotype,feedback_type,feedback_id,gender, row_no, clg)
 			## Only the free mentors are returned to reduce time
 			if mentor_object.is_free() :
 				mentors.append(mentor_object)
@@ -73,7 +78,7 @@ def get_mentors(sheetname = 'Copy of CovEd Mentor Form New'):
 	
 
 
-def get_mentees(sheetname="Copy of CovEd student form (New)"):
+def get_mentees(sheetname="Copy of CovEd student form (New) copy"):
 	mentees = []
 
 	#variables containing the headings of columns in google forms. 
@@ -86,7 +91,7 @@ def get_mentees(sheetname="Copy of CovEd student form (New)"):
 	feedback_head ="If you are filling this form for the second time and have already been assigned a mentor, are you happy with the mentor assigned to you?"
 	emotype_head = "Please select all the box pertaining to the area that you need support with with (once again please be considerate and only select something if you genuinely need help with it):"
 	gender_head ="What is your gender? (Note that we are providing this facility only in the case of students requiring emotional support as some issues can be sensitive. For general academic help this option will not be taken into account)"
-	assigned_mentor_head = "Assigned Mentor"
+	assigned_mentor_head = "Mentor"
 
 	#fetch data from sheet
 	records,mentee_sheet= get_data_from_sheet(sheetname)
