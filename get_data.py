@@ -4,7 +4,7 @@ from classes import Mentor,Student
 
 
 
-def get_mentors(sheetname = 'Copy of CovEd Mentor Form New copy'):
+def get_mentors(sheetname = 'CovEd Mentor Form New'):
 	mentors = []
 
 	#variables containing the headings of columns in google forms. 
@@ -78,7 +78,7 @@ def get_mentors(sheetname = 'Copy of CovEd Mentor Form New copy'):
 	
 
 
-def get_mentees(sheetname="Copy of CovEd student form (New) copy"):
+def get_mentees(sheetname="CovEd student form (New)"):
 	mentees = []
 
 	#variables containing the headings of columns in google forms. 
