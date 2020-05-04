@@ -20,7 +20,6 @@ def get_mentors(sheetname = 'CovEd Mentor Form New'):
 	feedback_id_head = "Please provide the code ID that you have been assigned(E.g. E-111 or M-34 or X-45 etc.)(Note: If you are filling this form for the first time, write 'None')"
 	gender_head = "What is your gender? (Note that we are providing this facility to students only in the case of them requiring emotional support as some issues can be sensitive. For general academic help this option will not be taken into account)"
 	assigned_head="Assigned"
-	unassigned_head="Unassigned"
 	college_head = "What is the college you are or were affiliated with? Please note that we are only accepting responses from students pursuing college level studies (even if not physically going to a college) or have already graduated from college."
 
 	
@@ -40,8 +39,11 @@ def get_mentors(sheetname = 'CovEd Mentor Form New'):
 			maxments = row[maxments_head]
 			emotional = classes_model.emotional[row[emotional_head]]
 			emotype = [classes_model.emotype[y.strip()] for y in row[emotype_head].split(",")]	#split- assignmentor assumes list. strip- google forms appends whitespaces which can be difficult to keep in account
+			
 			if 0 not in emotype :
 				emotype.append(0)
+
+			# print("Mentor", emotional, emotype)
 			feedback_type = classes_model.feedback[row[feedback_type_head]]
 			feedback_id = row[feedback_id_head]
 			clg = classes_model.college_tiers[row[college_head]]
@@ -51,18 +53,13 @@ def get_mentors(sheetname = 'CovEd Mentor Form New'):
 			else:
 				assigned = int(str(row[assigned_head]).replace(' ', ''))
 
-			if str(row[unassigned_head]).replace(' ', '') == '':
-				unassigned = 0
-			else:
-				unassigned = int(str(row[assigned_head]).replace(' ', ''))
-			
 			try:								#Made like this because some people have not filled gender even after saying Yes to support
 				gender = classes_model.gender[row[gender_head]]
 			except:
 				gender = None
 
 			#Initialise mentor object
-			mentor_object = Mentor(name,email,classes,foreignuniv,subjects,maxments,emotional, assigned-unassigned,emotype,feedback_type,feedback_id,gender, row_no, clg)
+			mentor_object = Mentor(name,email,classes,foreignuniv,subjects,maxments,emotional, assigned,emotype,feedback_type,feedback_id,gender, row_no, clg)
 			## Only the free mentors are returned to reduce time
 			if mentor_object.is_free() :
 				mentors.append(mentor_object)
@@ -127,6 +124,8 @@ def get_mentees(sheetname="CovEd student form (New)"):
 					emotype.append(0)
 			else:
 				emotype= [0]
+
+			# print("Student", extracurricular, emotype)
 
 			try: 																	#Made like this because some people have not filled gender even after saying Yes to support
 				gender = classes_model.gender[row[gender_head]]

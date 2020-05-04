@@ -42,12 +42,18 @@ def student_assign_mentor(student):
                 if mentor.foreignuniv :
                     score -= 600
 
+            poss = True
+
             if student.extracurricular:
                 if not mentor.emotional:
                     continue             # decide this value
                 else:
-                    if student.emotype not in mentor.emotype:
-                        continue         # decide this value
+                    for em in student.emotype :
+                        if em not in mentor.emotype:
+                            poss = False
+                            break         # decide this value
+
+            if not poss : continue
 
             assignable_mentors.append([mentor, score])
 
@@ -91,7 +97,8 @@ def student_assign_mentor(student):
 
         if student.assigned_mentor != None :                        # Updating the last mentor
             mentee_sheet.update_cell(student.row_no,22,student.assigned_mentor)
-            mentee_sheet.update_cell(student.row_no,4,"Reassigned")            
+            mentee_sheet.update_cell(student.row_no,4,"Reassigned")
+            print("Unassigned :", student.assigned_mentor)   
 
         #Update mentee parameters
         student.assigned_mentor = mentor_return.name
