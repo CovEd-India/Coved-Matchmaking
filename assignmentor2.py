@@ -19,6 +19,9 @@ def student_assign_mentor(student):
     if student.assigned_mentor != None and student.feedback_type != 2 :
         return None
 
+    if student.feedback_type == 1 or student.feedback_type == 4:
+        return None
+
     assignable_mentors=[]
     for mentor in mentors:
         if mentor.is_free():
@@ -98,7 +101,10 @@ def student_assign_mentor(student):
         if student.assigned_mentor != None :                        # Updating the last mentor
             mentee_sheet.update_cell(student.row_no,22,student.assigned_mentor)
             mentee_sheet.update_cell(student.row_no,4,"Reassigned")
-            print("Unassigned :", student.assigned_mentor)   
+            print("Unassigned :", student.assigned_mentor)
+
+        elif student.feedback_type == 2 :
+            mentee_sheet.update_cell(student.row_no,4,"Reassigned")
 
         #Update mentee parameters
         student.assigned_mentor = mentor_return.name

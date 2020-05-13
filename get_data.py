@@ -111,6 +111,8 @@ def get_mentees(sheetname="CovEd student form (New)"):
 			if assigned_mentor != None and feedback != 2 :
 				continue
 
+			if feedback == 1 or feedback == 4:
+				continue
 
 			name = row[name_head]
 			email = row[email_head]
